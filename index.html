@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polinomios - Matemática General</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e8d5f0 0%, #d5e8f0 50%, #f0e8d5 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: linear-gradient(135deg, #9b59b6, #e67e22);
+            color: white;
+            padding: 40px 20px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
+
+        .nav-menu {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .nav-button {
+            background: linear-gradient(135deg, #a8e6cf, #dcedc1);
+            color: #5a4a4a;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .nav-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            background: linear-gradient(135deg, #dcedc1, #a8e6cf);
+        }
+
+        .section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section h2 {
+            color: #8e44ad;
+            margin-bottom: 20px;
+            font-size: 2em;
+            border-bottom: 3px solid #f39c12;
+            padding-bottom: 10px;
+        }
+
+        .subsection {
+            background: linear-gradient(135deg, #f5eef8, #e8f8f5);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            border-left: 5px solid #9b59b6;
+        }
+
+        .subsection h3 {
+            color: #d35400;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .theory-box {
+            background: #fef9e7;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 4px solid #f39c12;
+        }
+
+        .theory-box strong {
+            color: #6c3483;
+        }
+
+        .formula-box {
+            background: #eaf2f8;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 4px solid #3498db;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            font-size: 1.1em;
+        }
+
+        .exercise-container {
+            background: linear-gradient(135deg, #fadbd8, #f9e79f);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .exercise-container h3 {
+            color: #641e16;
+            margin-bottom: 20px;
+            font-size: 1.4em;
+        }
+
+        .exercise-item {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .exercise-item strong {
+            color: #9b59b6;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .exercise-item .problem {
+            color: #2c3e50;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: #f8f9f9;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .solution-toggle {
+            background: linear-gradient(135deg, #48c9b0, #5dade2);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .solution-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .solution {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background: linear-gradient(135deg, #abebc6, #82e0aa);
+            border-radius: 10px;
+            border-left: 4px solid #27ae60;
+        }
+
+        .solution.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; max-height: 0; }
+            to { opacity: 1; max-height: 500px; }
+        }
+
+        .solution strong {
+            color: #1e8449;
+        }
+
+        .interval-notation {
+            font-family: 'Courier New', monospace;
+            background: #f9e79f;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #636e72;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+            
+            .nav-button {
+                padding: 12px 18px;
+                font-size: 0.9em;
+            }
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #f9e79f 0%, #f9e79f 100%);
+            background-repeat: no-repeat;
+            background-size: 100% 40%;
+            background-position: 0 88%;
+            padding: 2px 5px;
+        }
+
+        .math-expression {
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
+        .ruffini-box {
+            background: #f4ecf7;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 4px solid #8e44ad;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📐 Polinomios</h1>
+            <p>Definiciones • Operaciones • Factorización • Teorema del Resto</p>
+        </header>
+
+        <nav class="nav-menu">
+            <button class="nav-button" onclick="showSection('definiciones')">Definiciones</button>
+            <button class="nav-button" onclick="showSection('operaciones')">Operaciones</button>
+            <button class="nav-button" onclick="showSection('division')">División</button>
+            <button class="nav-button" onclick="showSection('factorizacion')">Factorización</button>
+            <button class="nav-button" onclick="showSection('teoremas')">Teoremas</button>
+        </nav>
+
+        <!-- SECCIÓN DEFINICIONES -->
+        <section id="definiciones" class="section active">
+            <h2>Definición de Polinomios</h2>
+            
+            <div class="subsection">
+                <h3>¿Qué es un Polinomio?</h3>
+                <div class="theory-box">
+                    <p><strong>Definición:</strong> Un polinomio es una expresión de la forma:</p>
+                    <div class="formula-box">
+                        P(x) = a₀ + a₁x + a₂x² + ... + aₙxⁿ
+                    </div>
+                    <p><strong>Donde:</strong></p>
+                    <ul>
+                        <li><span class="highlight">x</span> es la variable o indeterminada (los exponentes son enteros no negativos)</li>
+                        <li><span class="highlight">a₀, a₁, a₂, ..., aₙ</span> se llaman coeficientes (números reales)</li>
+                        <li><span class="highlight">a₀</span> es el término independiente</li>
+                        <li><span class="highlight">aₙ</span> es el coeficiente principal</li>
+                        <li>Si <span class="highlight">aₙ ≠ 0</span>, <span class="highlight">n</span> es el <strong>grado</strong> de P(x)</li>
+                    </ul>
+                </div>
+
+                <div class="theory-box">
+                    <p><strong>Ejemplos:</strong></p>
+                    <ul>
+                        <li>P(x) = 5x³ - 2x² + 3x + 4 → Grado 3</li>
+                        <li>Q(x) = 4 - x → Grado 1</li>
+                        <li>V(x) = 2x⁷ - 6x³ + 7x + 4 → Grado 7</li>
+                        <li>S(x) = 23 → Grado 0</li>
+                    </ul>
+                </div>
+
+                <div class="theory-box">
+                    <p><strong>Clasificación según número de términos:</strong></p>
+                    <ul>
+                        <li><strong>Monomio:</strong> 1 término (ej: S(x) = 23)</li>
+                        <li><strong>Binomio:</strong> 2 términos (ej: Q(x) = 4 - x)</li>
+                        <li><strong>Trinomio:</strong> 3 términos (ej: P(x) = 5x³ - 2x² + 3x + 4)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="exercise-container">
+                <h3>📝 Ejercicios - Definiciones</h3>
+                
+                <div class="exercise-item">
+                    <strong>Ejercicio 1:</strong>
+                    <div class="problem">Dar ejemplos de polinomios que sean:<br>
+                    a) Binomio de tercer grado<br>
+                    b) Trinomio de cuarto grado<br>
+                    c) Monomio de quinto grado</div>
+                    <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+                    <div class="solution">
+                        <p><strong>Respuestas:</strong></p>
+                        <p>a) Binomio de tercer grado: <span class="interval-notation">x³ + 2x</span> o <span class="interval-notation">5x³ - 7</span></p>
+                        <p>b) Trinomio de cuarto grado: <span class="interval-notation">x⁴ + 3x² - 5</span> o <span class="interval-notation">2x⁴ - x + 1</span></p>
+                        <p>c) Monomio de quinto grado: <span class="interval-notation">x⁵</span> o <span class="interval-notation">3x</span></p>
+                    </div>
+                </div>
+
+                <div class="exercise-item">
+                    <strong>Ejercicio 2:</strong>
+                    <div class="problem">Determinar el grado de los siguientes polinomios:<br>
+                    a) P(x) = 3x⁵ - 2x³ + x - 8<br>
+                    b) Q(x) = 7<br>
+                    c) R(x) = 4x² - x⁶ + 3x</div>
+                    <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+                    <div class="solution">
+                        <p><strong>Respuestas:</strong></p>
+                        <p>a) <span class="interval-notation">Grado 5</span> (el mayor exponente es 5)</p>
+                        <p>b) <span class="interval-notation">Grado 0</span> (polinomio constante)</p>
+                        <p>c) <span class="interval-notation">Grado 6</span> (el mayor exponente es 6)</p>
+                    </div>
+                </div>
+
+                <div class="exercise-item">
+                    <strong>Ejercicio 3:</strong>
+                    <div class="problem">Determinar los valores de m, n, r y s para que T(x) = G(x):<br>
+                    T(x) = -½x⁵ + 2x³ - 2x² + 5<br>
+                    G(x) = (m-3)x + (2n+m)x² + (r+s)x³ + (n-r)x + (s-n)</div>
+                    <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+                    <div class="solution">
+                        <p><strong>Resolución:</strong> Igualamos coeficientes de igual grado:</p>
+                        <p>• x⁵: -½ = 0 (no hay término en G) → No coincide<br>
+                        • x⁴: 0 = m-3 → m = 3<br>
+                        • x³: 2 = r+s<br>
+                        • x²: -2 = 2n+m → -2 = 2n+3 → n = -5/2<br>
+                        • x¹: 0 = n-r → r = n = -5/2<br>
+                        • x⁰: 5 = s-n → 5 = s-(-5/2) → s = 5/2</p>
+                        <p>Verificando r+s = -5/2 + 5/2 = 0 ≠ 2</p>
+                        <p><strong>Solución:</strong> <span class="interval-notation">No existen valores que satisfagan la igualdad</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN OPERACIONES -->
+        <section id="operaciones" class="section">
+            <h2>Operaciones con Polinomios</h2>
+            
+            <div class="subsection">
+                <h3>Suma y Resta de Polinomios</h3>
+                <div class="theory-box">
+                    <p><strong>Suma:</strong> Se suman los coeficientes de los términos de igual grado.</p>
+                    <div class="formula-box">
+                        A(x) + B(x) = (a₀+b₀) + (a₁+b₁)x + (a₂+b₂)x² + ...
+                    </div>
+                    <p><strong>Propiedades:</strong></p>
+                    <ul>
+                        <li>Conmutativa: A(x) + B(x) = B(x) + A(x)</li>
+                        <li>Asociativa: (A+B)+C = A+(B+C)</li>
+                        <li>Elemento neutro: El polinomio nulo (todos coeficientes = 0)</li>
+                        <li>Elemento opuesto: Para todo A(x) existe -A(x) tal que A(x) + (-A(x)) = 0</li>
+                    </ul>
+                </div>
+
+                <div class="theory-box">
+                    <p><strong>Resta:</strong> P(x) - S(x) = P(x) + [-S(x)]</p>
+                    <p>Restar un polinomio equivale a sumar su opuesto.</p>
+                </div>
+            </div>
+
+            <div class="exercise-container">
+                <h3>📝 Ejercicios - Suma y Resta</h3>
+                
+                <div class="exercise-item">
+                    <strong>Ejercicio 1:</strong>
+                    <div class="problem">Dados:<br>
+                    A(x) = -½x⁵ + 2x³ - 2x² + 5<br>
+                    B(x) = -4x⁵ + 7x⁴ - x + 3<br>
+                    Calcular: A(x) + B(x)</div>
+                    <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+                    <div class="solution">
+                        <p><strong>Resolución:</strong></p>
+                        <p>A(x) + B(x) = (-½x⁵ + 2x³ - 2x² + 5) + (-4x⁵ + 7x⁴ - x + 3)</p>
+                        <p>= (-½-4)x⁵ + 7x + 2x³ - 2x² - x + (5+3)</p>
+                        <p>= -9/2x⁵ + 7x⁴ + 2x³ - 2x² - x + 8</p>
+                        <p><strong>Solución:</strong> <span class="interval-notation">-9/2x⁵ + 7x⁴ + 2x³ - 2x² - x + 8</span></p>
+                    </div>
+                </div>
+
+                <div class="exercise-item">
+                    <strong>Ejercicio 2:</strong>
+                    <div class="problem">Dados:<br>
+                    P(x) = 5/2x³ + 2x² - 3x - 2<br>
+                    S(x) = 3x - 4x² - 5x + 3<br>
+                    Calcular: P(x) - S(x)</div>
+                    <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+                    <div class="solution">
+                        <p><strong>Resolución:</strong></p>
+                        <p>P(x) - S(x) = P(x) + [-S(x)]</p>
+                        <p>= (5/2x³ + 2x² - 3x - 2) + (-3x + 4x² + 5x - 3)</p>
+                        <p>= -3x⁴ + 5/2x³ + (2+4)x² + (-3+5)x + (-2-3)</p>
+                        <p>= -3x⁴ + 5/2x³ + 6x² + 2x - 5</p>
+                        <p><strong>Solución:</strong> <span class="interval-notation">-3x⁴ + 5/2x³ + 6x² + 2x - 5</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Multiplicación de Polinomios</h3>
+                <div class="theory-box">
+                    <p><strong>Propiedad:</strong> Multiplicamos cada término de un polinomio por cada término del otro.</p>
+                    <div class="formula-box">
+                        (a₀ + a₁x)(b₀ + b₁x) = a₀b₀ + (a₀b₁+a₁b₀)x + a₁b₁x²
+                    </div>
+                    <p><strong>Grado del producto:</strong> gr(P·Q) = gr(P) + gr(Q)</p>
+                    <p><strong>Propiedades:</strong></p>
+                    <ul>
+                        <li>Conmutativa: A(x)·B(x) = B(x)·A(x)</li>
+                        <li>Asociativa: (A·B)·C = A·(B·C)</li>
+                        <li>Elemento neutro: E(x) = 1</li>
+                        <li>Distributiva: A(x)·[B(x)+C(x)] = A(x)·B(x) + A(x)·C(x)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="exercise-container">
+                <h3> Ejercicios - Multiplicación</h3>
+                
+                <div class="exercise-item">
+                    <strong>Ejercicio 3:</strong>
+                    <div class="problem">Calcular: (3x² - x + 1) · (2x² - x + 4)</div>
+                    <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+                    <div class="solution">
+                        <p><strong>Resolución:</strong></p>
+                        <p>= 3x²(2x² - x + 4) - x(2x² - x + 4) + 1(2x² - x + 4)</p>
+                        <p>= 6x⁴ - 3x³ + 12x² - 2x³ + x² - 4x + 2x² - x + 4</p>
+                        <p>= 6x⁴ + (-3-2)x³ + (12+1+2)x² + (-4-1)x + 4</p>
+                        <p>= 6x⁴ - 5x³ + 15x² - 5x + 4</p>
+                        <p><strong>Solución:</strong> <span class="interval-notation">6x⁴ - 5x³ + 15x² - 5x + 4</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN DIVISIÓN -->
+        <section id="division" class="section">
+            <h2>División de Polinomios</h2>
+            
+            <div class="subsection">
+                <h3>División Entera de Polinomios</h3>
+                <div class="theory-box">
+                    <p><strong>Algoritmo:</strong></p>
+                    <ol>
+                        <li>Ordenar ambos polinomios según potencias decrecientes de x</li>
+                        <li>Completar el dividendo si faltan términos</li>
+                        <li>Dividir el primer término del dividendo por el primer término del divisor</li>
+                        <li>Multiplicar el resultado por todo el divisor</li>
+                        <li>Restar este producto del dividendo</li>
+                        <li>Repetir hasta obtener un resto de grado menor que el divisor</li>
+                    </ol>
+                    <div class="formula-box">
+                        D(x) = d(x) · C(x) + R(x)<br>
+                        donde gr(R) < gr(d) o R(x) = 0
+                    </div>
+                </div>
+            </div>
+
+            <div class="exercise-container">
+                <h3>📝 Ejercicios - División</h3>
+                
+                <div class="exercise-item">
+                    <strong>Ejercicio 1:</strong>
+                    <div class="problem">Dividir: (3x + 2x³ - 4x² + 4x - 4)  (x³ - 2x²)</div>
+                    <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+                    <div class="solution">
+                        <p><strong>Resolución:</strong></p>
+                        <div class="ruffini-box">
+                        3x⁴ + 2x³ - 4x² + 4x - 4 | x³ - 2x²<br>
+                        -3x⁴ + 6x³                | 3x + 8<br>
+                        ──────────────────────<br>
+                        8x³ - 4x² + 4x - 4<br>
+                        -8x³ + 16x²<br>
+                        ──────────────────<br>
+                        12x² + 4x - 4
+                        </div>
+                        <p><strong>Cociente:</strong> C(x) = 3x + 8</p>
+                        <p><strong>Resto:</strong> R(x) = 12x² + 4x - 4</p>
+                        <p><strong>Verificación:</strong> (x³-2x²)(3x+8) + (12x²+4x-4) = 3x⁴+2x³-4x²+4x-4 ✓</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Regla de Ruffini</h3>
+                <div class="theory-box">
+                    <p><strong>Cuándo usar:</strong> Cuando dividimos por un polinomio de la forma (x ± a)</p>
+                    <p><strong>Procedimiento:</strong></p>
+                    <ol>
+                        <li>Escribir los coeficientes del dividendo ordenado y completo</li>
+                        <li>Escribir el opuesto de "a" en el ángulo</li>
+                        <li>Bajar el primer coeficiente</li>
+                        <li>Multiplicar por "a" y sumar al siguiente coeficiente</li>
+                        <li>Repetir hasta el final</li>
+                        <li>El último número es el resto, los demás son coeficientes del cociente</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="exercise-container">
+                <h3> Ejercicios - Ruffini</h3>
+                
+                <div class="exercise-item">
+                    <strong>Ejercicio 2:</strong>
+                    <div class="problem">Dividir usando Ruffini:<br>
+                    A(x) = 3x³ + 7x² + 6x - 1<br>
+                    B(x) = x + 2</div>
+                    <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+                    <div class="solution">
+                        <p><strong>Resolución:</strong></p>
+                        <div class="ruffini-box">
+                        Coeficientes:  3   7   6   -1<br>
+                        a = -2        ↓  -6  -2   -8<br>
+                        ────────────────────────<br>
+                                     3   1   4   -9
+                        </div>
+                        <p><strong>Cociente:</strong> C(x) = 3x² + x + 4</p>
+                        <p><strong>Resto:</strong> R = -9</p>
+                        <p><strong>Verificación:</strong> (x+2)(3x²+x+4) - 9 = 3x³+7x²+6x-1 ✓</p>
+                    </div>
+                </div>
+
+                <div class="exercise-item">
+                    <strong>Ejercicio 3:</strong>
+                    <div class="problem">Dividir: (6x³ + 2x² - 4x - 1) ÷ (x + 2)</div>
+                    <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+                    <div class="solution">
+                        <p><strong>Resolución:</strong></p>
+                        <div class="ruffini-box">
+                        6   2   -4   -1  | -2<br>
+                           -12   20  -32<br>
+                        ────────────────<br>
+                        6  -10   16  -33
+                        </div>
+                        <p><strong>Cociente:</strong> C(x) = 6x² - 10x + 16</p>
+                        <p><strong>Resto:</strong> R = -33</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN FACTORIZACIÓN -->
+        <section id="factorizacion" class="section">
+            <h2>Factorización de Polinomios</h2>
+            
+            <div class="subsection">
+                <h3>Métodos de Factorización</h3>
+                <div class="theory-box">
+                    <p><strong>a) Factor Común:</strong></p>
+                    <div class="formula-box">
+                        P(x) = 3x² - 18x = 3x(x - 6)
+                    </div>
+                </div>
+
+                <div class="theory-box">
+                    <p><strong>b) Diferencia de Cuadrados:</strong></p>
+                    <div class="formula-box">
+                        x² - a² = (x + a)(x - a)
+                    </div>
+                    <p>Ejemplos:</p>
+                    <ul>
+                        <li>x² - 25 = (x + 5)(x - 5)</li>
+                        <li>x⁴ - 36 = (x² + 6)(x² - 6)</li>
+                    </ul>
+                </div>
+
+                <div class="theory-box">
+                    <p><strong>c) Trinomio Cuadrado Perfecto:</strong></p>
+                    <div class="formula-box">
+                        x² + 2ax + a² = (x + a)²<br>
+                        x² - 2ax + a² = (x - a)²
+                    </div>
+                    <p>Ejemplo: x² + 10x + 25 = (x + 5)²</p>
+                </div>
+
+                <div class="theory-box">
+                    <p><strong>d) Cuatrinomio Cubo Perfecto:</strong></p>
+                    <div class="formula-box">
+                        x³ + 3ax² + 3a²x + a³ = (x + a)³
+                    </div>
+                    <p>Ejemplo: x³ + 6x² + 12x + 8 = (x + 2)³</p>
+                </div>
+
+                <div class="theory-box">
+                    <p><strong>e) Factor Común por Grupos:</strong></p>
+                    <div class="formula-box">
+                        7x⁵ - 14x + 5x - 10 = 7x⁴(x-2) + 5(x-2) = (7x+5)(x-2)
+                    </div>
+                </div>
+            </div>
+
+            <div class="exercise-container">
+                <h3>📝 Ejercicios - Factorización</h3>
+                
+                <div class="exercise-item">
+                    <strong>Ejercicio 1:</strong>
+                    <div class="problem">Factorizar: P(x) = x⁴ - x</div>
+                    <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+                    <div class="solution">
+                        <p><strong>Resolución:</strong></p>
+                        <p>P(x) = x⁴ - x</p>
+                        <p>= x(x³ - 1)</p>
+                        <p>= x(x - 1)(x² + x + 1)</p>
+                        <p><strong>Solución:</strong> <span class="interval-notation">x(x-1)(x²+x+1)</span></p>
+                    </div>
+                </div>
+
+                <div class="exercise-item">
+                    <strong>Ejercicio 2:</strong>
+                    <div class="problem">Factorizar: Q(x) = 5x³ - 10x² + 5x - 10</div>
+                    <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+                    <div class="solution">
+                        <p><strong>Resolución:</strong></p>
+                        <p>Q(x) = 5x³ - 10x² + 5x - 10</p>
+                        <p>= 5x²(x - 2) + 5(x - 2)</p>
+                        <p>= (5x² + 5)(x - 2)</p>
+                        <p>= 5(x² + 1)(x - 2)</p>
+                        <p><strong>Solución:</strong> <span class="interval-notation">5(x²+1)(x-2)</span></p>
+                    </div>
+                </div>
+
+                <div class="exercise-item">
+                    <strong>Ejercicio 3:</strong>
+                    <div class="problem">Factorizar: T(x) = x⁴ - 2x³ + x²</div>
+                    <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+                    <div class="solution">
+                        <p><strong>Resolución:</strong></p>
+                        <p>T(x) = x - 2x³ + x²</p>
+                        <p>= x²(x² - 2x + 1)</p>
+                        <p>= x²(x - 1)²</p>
+                        <p><strong>Solución:</strong> <span class="interval-notation">x²(x-1)²</span></p>
+                    </div>
+                </div>
+
+                <div class="exercise-item">
+                    <strong>Ejercicio 4:</strong>
+                    <div class="problem">Factorizar: P(x) = x³ - 6x² + 12x - 8</div>
+                    <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+                    <div class="solution">
+                        <p><strong>Resolución:</strong></p>
+                        <p>Observamos que es un cubo perfecto:</p>
+                        <p>(x)³ = x³</p>
+                        <p>(2)³ = 8</p>
+                        <p>3·x²·2 = 6x² ✓</p>
+                        <p>3·x·2² = 12x ✓</p>
+                        <p>P(x) = (x - 2)³</p>
+                        <p><strong>Solución:</strong> <span class="interval-notation">(x-2)³</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN TEOREMAS -->
+        <section id="teoremas" class="section">
+            <h2>Teorema del Resto y Raíces</h2>
+            
+            <div class="subsection">
+                <h3>Valor Numérico y Raíces</h3>
+                <div class="theory-box">
+                    <p><strong>Valor Numérico:</strong> Es el número que se obtiene reemplazando x por un valor a y efectuando los cálculos.</p>
+                    <p>Ejemplo: P(x) = x² - 5x + 6</p>
+                    <ul>
+                        <li>P(1) = 1 - 5 + 6 = 2</li>
+                        <li>P(2) = 4 - 10 + 6 = 0</li>
+                        <li>P(-1) = 1 + 5 + 6 = 12</li>
+                    </ul>
+                </div>
+
+                <div class="theory-box">
+                    <p><strong>Raíz de un Polinomio:</strong></p>
+                    <div class="formula-box">
+                        x = a es raíz de P(x) ⟺ P(a) = 0
+                    </div>
+                    <p>Ejemplo: x = 2 es raíz de P(x) = x² - 5x + 6 porque P(2) = 0</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Teorema del Resto</h3>
+                <div class="theory-box">
+                    <p><strong>Enunciado:</strong> El resto de la división de un polinomio P(x) por otro de la forma (x - a) es igual a P(a).</p>
+                    <div class="formula-box">
+                        P(x) ÷ (x-a) → Resto = P(a)
+                    </div>
+                    <p><strong>Consecuencia:</strong> P(x) es divisible por (x-a) si y solo si P(a) = 0</p>
+                </div>
+            </div>
+
+            <div class="exercise-container">
+                <h3> Ejercicios - Teorema del Resto</h3>
+                
+                <div class="exercise-item">
+                    <strong>Ejercicio 1:</strong>
+                    <div class="problem">Averiguar si A(x) = x³ - 8 es divisible por B(x) = x + 2</div>
+                    <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+                    <div class="solution">
+                        <p><strong>Resolución:</strong></p>
+                        <p>B(x) = x + 2 = x - (-2), entonces a = -2</p>
+                        <p>Calculamos A(-2) = (-2)³ - 8 = -8 - 8 = -16</p>
+                        <p>Como A(-2) ≠ 0, entonces <strong>NO es divisible</strong></p>
+                        <p><strong>Solución:</strong> <span class="interval-notation">No es divisible. Resto = -16</span></p>
+                    </div>
+                </div>
+
+                <div class="exercise-item">
+                    <strong>Ejercicio 2:</strong>
+                    <div class="problem">Averiguar si A(x) = x² - 5x + 6 es divisible por B(x) = x - 2</div>
+                    <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+                    <div class="solution">
+                        <p><strong>Resolución:</strong></p>
+                        <p>Calculamos A(2) = 2² - 5(2) + 6 = 4 - 10 + 6 = 0</p>
+                        <p>Como A(2) = 0, entonces <strong>SÍ es divisible</strong></p>
+                        <p><strong>Solución:</strong> <span class="interval-notation">Sí es divisible. Resto = 0</span></p>
+                    </div>
+                </div>
+
+                <div class="exercise-item">
+                    <strong>Ejercicio 3:</strong>
+                    <div class="problem">Hallar el valor de h sabiendo que -4 es raíz de:<br>
+                    M(x) = 6x⁵ - 7x³ + 5x² + 11x + h</div>
+                    <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+                    <div class="solution">
+                        <p><strong>Resolución:</strong></p>
+                        <p>Si -4 es raíz, entonces M(-4) = 0</p>
+                        <p>M(-4) = 6(-4)⁵ - 7(-4)³ + 5(-4)² + 11(-4) + h = 0</p>
+                        <p>= 6(-1024) - 7(-64) + 5(16) - 44 + h = 0</p>
+                        <p>= -6144 + 448 + 80 - 44 + h = 0</p>
+                        <p>= -5660 + h = 0</p>
+                        <p>h = 5660</p>
+                        <p><strong>Solución:</strong> <span class="interval-notation">h = 5660</span></p>
+                    </div>
+                </div>
+
+                <div class="exercise-item">
+                    <strong>Ejercicio 4:</strong>
+                    <div class="problem">Encontrar las raíces de P(x) = x⁴ - 4x³ + x² + 8x - 6<br>
+                    (Pista: probar con divisores del término independiente)</div>
+                    <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+                    <div class="solution">
+                        <p><strong>Resolución:</strong></p>
+                        <p>Divisores de -6: ±1, ±2, ±3, ±6</p>
+                        <p>P(1) = 1 - 4 + 1 + 8 - 6 = 0 ✓ → x = 1 es raíz</p>
+                        <p>Dividimos por (x-1) usando Ruffini:</p>
+                        <div class="ruffini-box">
+                        1  -4   1   8   -6  |  1<br>
+                           1  -3  -2    6<br>
+                        ──────────────────<br>
+                        1  -3  -2   6    0
+                        </div>
+                        <p>Q(x) = x³ - 3x² - 2x + 6</p>
+                        <p>Q(3) = 27 - 27 - 6 + 6 = 0 ✓ → x = 3 es raíz</p>
+                        <p>Dividimos Q(x) por (x-3):</p>
+                        <div class="ruffini-box">
+                        1  -3  -2   6  |  3<br>
+                           3   0  -6<br>
+                        ─────────────<br>
+                        1   0  -2   0
+                        </div>
+                        <p>R(x) = x² - 2 = (x+√2)(x-√2)</p>
+                        <p><strong>Raíces:</strong> <span class="interval-notation">x = 1, x = 3, x = √2, x = -√2</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <p>📚 Material educativo de Matemática General - Polinomios</p>
+            <p>Universidad Nacional del Comahue - Facultad de Informática</p>
+            <p>© 2026 - Todos los derechos reservados</p>
+        </footer>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            const selectedSection = document.getElementById(sectionId);
+            if (selectedSection) {
+                selectedSection.classList.add('active');
+            }
+            
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        function toggleSolution(button) {
+            const solution = button.nextElementSibling;
+            solution.classList.toggle('show');
+            
+            if (solution.classList.contains('show')) {
+                button.textContent = 'Ocultar Solución';
+            } else {
+                button.textContent = 'Ver Solución';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            showSection('definiciones');
+        });
+    </script>
+</body>
+</html>
